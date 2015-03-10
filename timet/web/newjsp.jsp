@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Selecting data</title>
+        <title>Timetable</title>
     </head>
     <%!
         public class timet{
@@ -20,11 +20,13 @@
             String pass = "";
             
             Connection con = null;
+            PreparedStatement selectall = null;
             PreparedStatement selectMon = null;
             PreparedStatement selectTue = null;
             PreparedStatement selectWed = null;
             PreparedStatement selectThu = null;
             PreparedStatement selectFri = null;
+            ResultSet rs = null;
             ResultSet rs1 = null;
             ResultSet rs2 = null;
             ResultSet rs3 = null;
@@ -35,14 +37,23 @@
             {
                 try{
                     con = DriverManager.getConnection(URL, user, pass);
-                    selectMon = con.prepareStatement("select * from timet where day = 'Mon'"); // if it works we can copy
-                    selectTue = con.prepareStatement("select * from timet where day = 'Tue'");
-                    selectWed = con.prepareStatement("select * from timet where day = 'Wed'");
-                    selectThu = con.prepareStatement("select * from timet where day = 'Thu'");
-                    selectFri = con.prepareStatement("select * from timet where day = 'Fri'");
+                    selectall = con.prepareStatement("select * from timet");
+                    selectMon = con.prepareStatement("select * from timet where day = 'Mon' order by start"); // if it works we can copy
+                    selectTue = con.prepareStatement("select * from timet where day = 'Tue' order by start");
+                    selectWed = con.prepareStatement("select * from timet where day = 'Wed' order by start");
+                    selectThu = con.prepareStatement("select * from timet where day = 'Thu' order by start");
+                    selectFri = con.prepareStatement("select * from timet where day = 'Fri' order by start");
                 } catch(SQLException e){
                 e.printStackTrace();
                 }
+            }
+            public ResultSet showAll(){
+                try {
+                    rs = selectall.executeQuery();
+                }catch(SQLException e){
+                e.printStackTrace();
+                }
+                return rs;
             }
             public ResultSet showMon(){
                 try {
@@ -90,6 +101,7 @@
         <h1>Welcome to Timetable Portal</h1>
         <%
             timet timemachine = new timet();
+            ResultSet result = timemachine.showAll();
             ResultSet resultMon = timemachine.showMon();
             ResultSet resultTue = timemachine.showTue();
             ResultSet resultWed = timemachine.showWed();
@@ -108,27 +120,34 @@
                 </tr>
             </thead>
             <tbody>
-                <%while (resultMon.next() /*|| resultTue.next() ||resultWed.next() || resultThu.next() ||resultFri.next()*/) {%>
+                <%while (result.next()) {%>
                 <tr>
+                    <%if(resultMon.next()){%>
                     <td><%= resultMon.getString("start")%>-<%= resultMon.getString("end")%> 
                     <br> <center><strong><%= resultMon.getString("cid")%> </strong><br>
                     <em> <%=resultMon.getString("venue")%> </em></center></td>
-                    <%--
+                    <%}%>
+                    
+                    <%if(resultTue.next()){%>
                     <td><%= resultTue.getString("start")%>-<%= resultTue.getString("end")%> 
                     <br> <center><strong><%= resultTue.getString("cid")%> </strong><br>
                     <em> <%=resultTue.getString("venue")%> </em></center></td>
-                    
+                    <%}%>
+                    <%if(resultWed.next()){%>
                     <td><%= resultWed.getString("start")%>-<%= resultWed.getString("end")%> 
                     <br> <center><strong><%= resultWed.getString("cid")%> </strong><br>
                     <em> <%=resultWed.getString("venue")%> </em></center></td>
-                    
+                    <%}%>
+                    <%if(resultThu.next()){%>
                     <td><%= resultThu.getString("start")%>-<%= resultThu.getString("end")%> 
                     <br> <center><strong><%= resultThu.getString("cid")%> </strong><br>
                     <em> <%=resultThu.getString("venue")%> </em></center></td>
-                    
+                    <%}%>
+                    <%if(resultFri.next()){%>
                     <td><%= resultFri.getString("start")%>-<%= resultFri.getString("end")%> 
                     <br> <center><strong><%= resultFri.getString("cid")%> </strong><br>
-                    <em> <%=resultFri.getString("venue")%> </em></center></td>--%>
+                    <em> <%=resultFri.getString("venue")%> </em></center></td>
+                    <%}%>
                 </tr>
                 <%}%>
             </tbody>
