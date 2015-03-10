@@ -15,11 +15,13 @@ public final class newjsp_jsp extends org.apache.jasper.runtime.HttpJspBase
             String pass = "";
             
             Connection con = null;
+            PreparedStatement selectall = null;
             PreparedStatement selectMon = null;
             PreparedStatement selectTue = null;
             PreparedStatement selectWed = null;
             PreparedStatement selectThu = null;
             PreparedStatement selectFri = null;
+            ResultSet rs = null;
             ResultSet rs1 = null;
             ResultSet rs2 = null;
             ResultSet rs3 = null;
@@ -30,14 +32,23 @@ public final class newjsp_jsp extends org.apache.jasper.runtime.HttpJspBase
             {
                 try{
                     con = DriverManager.getConnection(URL, user, pass);
-                    selectMon = con.prepareStatement("select * from timet where day = 'Mon'"); // if it works we can copy
-                    selectTue = con.prepareStatement("select * from timet where day = 'Tue'");
-                    selectWed = con.prepareStatement("select * from timet where day = 'Wed'");
-                    selectThu = con.prepareStatement("select * from timet where day = 'Thu'");
-                    selectFri = con.prepareStatement("select * from timet where day = 'Fri'");
+                    selectall = con.prepareStatement("select * from timet");
+                    selectMon = con.prepareStatement("select * from timet where day = 'Mon' order by start"); // if it works we can copy
+                    selectTue = con.prepareStatement("select * from timet where day = 'Tue' order by start");
+                    selectWed = con.prepareStatement("select * from timet where day = 'Wed' order by start");
+                    selectThu = con.prepareStatement("select * from timet where day = 'Thu' order by start");
+                    selectFri = con.prepareStatement("select * from timet where day = 'Fri' order by start");
                 } catch(SQLException e){
                 e.printStackTrace();
                 }
+            }
+            public ResultSet showAll(){
+                try {
+                    rs = selectall.executeQuery();
+                }catch(SQLException e){
+                e.printStackTrace();
+                }
+                return rs;
             }
             public ResultSet showMon(){
                 try {
@@ -125,7 +136,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>Selecting data</title>\n");
+      out.write("        <title>Timetable</title>\n");
       out.write("    </head>\n");
       out.write("    ");
       out.write("\n");
@@ -134,6 +145,7 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("        ");
 
             timet timemachine = new timet();
+            ResultSet result = timemachine.showAll();
             ResultSet resultMon = timemachine.showMon();
             ResultSet resultTue = timemachine.showTue();
             ResultSet resultWed = timemachine.showWed();
@@ -154,9 +166,12 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("            </thead>\n");
       out.write("            <tbody>\n");
       out.write("                ");
-while (resultMon.next() /*|| resultTue.next() ||resultWed.next() || resultThu.next() ||resultFri.next()*/) {
+while (result.next()) {
       out.write("\n");
       out.write("                <tr>\n");
+      out.write("                    ");
+if(resultMon.next()){
+      out.write("\n");
       out.write("                    <td>");
       out.print( resultMon.getString("start"));
       out.write('-');
@@ -169,6 +184,76 @@ while (resultMon.next() /*|| resultTue.next() ||resultWed.next() || resultThu.ne
       out.print(resultMon.getString("venue"));
       out.write(" </em></center></td>\n");
       out.write("                    ");
+}
+      out.write("\n");
+      out.write("                    \n");
+      out.write("                    ");
+if(resultTue.next()){
+      out.write("\n");
+      out.write("                    <td>");
+      out.print( resultTue.getString("start"));
+      out.write('-');
+      out.print( resultTue.getString("end"));
+      out.write(" \n");
+      out.write("                    <br> <center><strong>");
+      out.print( resultTue.getString("cid"));
+      out.write(" </strong><br>\n");
+      out.write("                    <em> ");
+      out.print(resultTue.getString("venue"));
+      out.write(" </em></center></td>\n");
+      out.write("                    ");
+}
+      out.write("\n");
+      out.write("                    ");
+if(resultWed.next()){
+      out.write("\n");
+      out.write("                    <td>");
+      out.print( resultWed.getString("start"));
+      out.write('-');
+      out.print( resultWed.getString("end"));
+      out.write(" \n");
+      out.write("                    <br> <center><strong>");
+      out.print( resultWed.getString("cid"));
+      out.write(" </strong><br>\n");
+      out.write("                    <em> ");
+      out.print(resultWed.getString("venue"));
+      out.write(" </em></center></td>\n");
+      out.write("                    ");
+}
+      out.write("\n");
+      out.write("                    ");
+if(resultThu.next()){
+      out.write("\n");
+      out.write("                    <td>");
+      out.print( resultThu.getString("start"));
+      out.write('-');
+      out.print( resultThu.getString("end"));
+      out.write(" \n");
+      out.write("                    <br> <center><strong>");
+      out.print( resultThu.getString("cid"));
+      out.write(" </strong><br>\n");
+      out.write("                    <em> ");
+      out.print(resultThu.getString("venue"));
+      out.write(" </em></center></td>\n");
+      out.write("                    ");
+}
+      out.write("\n");
+      out.write("                    ");
+if(resultFri.next()){
+      out.write("\n");
+      out.write("                    <td>");
+      out.print( resultFri.getString("start"));
+      out.write('-');
+      out.print( resultFri.getString("end"));
+      out.write(" \n");
+      out.write("                    <br> <center><strong>");
+      out.print( resultFri.getString("cid"));
+      out.write(" </strong><br>\n");
+      out.write("                    <em> ");
+      out.print(resultFri.getString("venue"));
+      out.write(" </em></center></td>\n");
+      out.write("                    ");
+}
       out.write("\n");
       out.write("                </tr>\n");
       out.write("                ");
