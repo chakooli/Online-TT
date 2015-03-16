@@ -4,9 +4,8 @@ import java.sql.*;
 public class GetCourses {
 		Dbcon databasecon = new Dbcon();
 		Connection con = databasecon.dbconnect();
-		public long courses(String username) throws SQLException{
+		public String[] courses(String username) throws SQLException{
 			int i=0, count = 0;
-			Getup g = new Getup();
 			int u = Integer.parseInt(username);
 			PreparedStatement ps= con.prepareStatement("select " +
 					"count(*) from reg_courses where stud_rollno = ?");
@@ -24,6 +23,6 @@ public class GetCourses {
                 regcourses[i] = rs.getString("coursecode");
                 i++;
                 }
-			return count;
+			return regcourses;
 		}
 }

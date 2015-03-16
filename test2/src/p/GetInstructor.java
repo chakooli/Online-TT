@@ -8,28 +8,23 @@ import java.sql.SQLException;
 public class GetInstructor {
 	Dbcon databasecon = new Dbcon();
 	Connection con = databasecon.dbconnect();
-	public int instructor() throws SQLException{
-		GetCourses g = new GetCourses();
-		int regcourses;
-		int i = 0, count = 0 ;
-		regcourses = g.courses();
-		String countq = "select count(*) from course_instructor where coursecode = "+regcourses+";";
-		PreparedStatement ps= con.prepareStatement(countq);
-		ResultSet countrs = ps.executeQuery(countq);
-		while(countrs.next()){
-			count = countrs.getInt(1);
-        }
-		String instructorno[] = new String[count];
-		String query = "select instructor.shorthand from instructor inner join course_instructor" +
+	public String[][] instructor(String username, String regcourses[])
+	throws SQLException{
+		int i = 0, k;
+		String[][] ins = new String[regcourses.length][4];
+		for(i=0;i<regcourses.length;i++){
+		PreparedStatement ps = con.prepareStatement("select instructor.shorthand from instructor inner join course_instructor" +
 				" on instructor.instructor_id = course_instructor.instructor_id " +
-				"where course_instructor.coursecode = "+regcourses+";";
-		ResultSet rs = ps.executeQuery(query);
+				"where course_instructor.coursecode = ?");
+		ps.setString(1, regcourses[i]);
+		ResultSet rs = ps.executeQuery();
+		k=0;
         while(rs.next()){
-            }
-		return regcourses;
-		
-		
-			
+        	ins[i][k] = rs.getString(1);
+        	k++;
+        }
+		}
+		return ins;
 	}
 	
 	
