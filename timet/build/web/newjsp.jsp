@@ -33,16 +33,17 @@
             ResultSet rs4 = null;
             ResultSet rs5 = null;
             
-            public timet()
+            public timet(String U)
             {
                 try{
                     con = DriverManager.getConnection(URL, user, pass);
-                    selectall = con.prepareStatement("select * from timet");
-                    selectMon = con.prepareStatement("select * from timet where day = 'Mon' order by start"); // if it works we can copy
-                    selectTue = con.prepareStatement("select * from timet where day = 'Tue' order by start");
-                    selectWed = con.prepareStatement("select * from timet where day = 'Wed' order by start");
-                    selectThu = con.prepareStatement("select * from timet where day = 'Thu' order by start");
-                    selectFri = con.prepareStatement("select * from timet where day = 'Fri' order by start");
+                    selectall = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where sid = '"+U+"'");
+                    selectMon = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Mon' and sid = '"+U+"' order by start");
+                    selectTue = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Tue' and sid = '"+U+"' order by start");
+                    selectWed = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Wed' and sid = '"+U+"' order by start");
+                    selectThu = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Thu' and sid = '"+U+"' order by start");
+                    selectFri = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Thu' and sid = '"+U+"' order by start");
+                    //problem is students will have to register for free slot also :-|
                 } catch(SQLException e){
                 e.printStackTrace();
                 }
@@ -100,7 +101,12 @@
     <body>
         <h1>Welcome to Timetable Portal</h1>
         <%
-            timet timemachine = new timet();
+            String ID = request.getParameter("username");
+            //String pass =request.getParameter("password");
+            timet timemachine = new timet(ID);
+            //PreparedStatement psu = timemachine.con.prepareStatement("select pass from stud where user = '"+ID+"'");
+            //ResultSet rsu = psu.executeQuery();
+   
             ResultSet result = timemachine.showAll();
             ResultSet resultMon = timemachine.showMon();
             ResultSet resultTue = timemachine.showTue();
@@ -124,32 +130,32 @@
                 <tr>
                     <%if(resultMon.next()){%>
                     <td><%= resultMon.getString("start")%>-<%= resultMon.getString("end")%> 
-                    <br> <center><strong><%= resultMon.getString("cid")%> </strong><br>
+                    <br> <center><strong><%= resultMon.getString("cid")%> <%= resultMon.getString("LT")%> </strong><br>
                     <em> <%=resultMon.getString("venue")%> </em></center></td>
                     <%}%>
                     
                     <%if(resultTue.next()){%>
                     <td><%= resultTue.getString("start")%>-<%= resultTue.getString("end")%> 
-                    <br> <center><strong><%= resultTue.getString("cid")%> </strong><br>
+                    <br> <center><strong><%= resultTue.getString("cid")%> <%= resultTue.getString("LT")%></strong><br>
                     <em> <%=resultTue.getString("venue")%> </em></center></td>
                     <%}%>
                     <%if(resultWed.next()){%>
                     <td><%= resultWed.getString("start")%>-<%= resultWed.getString("end")%> 
-                    <br> <center><strong><%= resultWed.getString("cid")%> </strong><br>
+                    <br> <center><strong><%= resultWed.getString("cid")%> <%= resultWed.getString("LT")%> </strong><br>
                     <em> <%=resultWed.getString("venue")%> </em></center></td>
                     <%}%>
                     <%if(resultThu.next()){%>
                     <td><%= resultThu.getString("start")%>-<%= resultThu.getString("end")%> 
-                    <br> <center><strong><%= resultThu.getString("cid")%> </strong><br>
+                    <br> <center><strong><%= resultThu.getString("cid")%> <%= resultThu.getString("LT")%> </strong><br>
                     <em> <%=resultThu.getString("venue")%> </em></center></td>
                     <%}%>
                     <%if(resultFri.next()){%>
                     <td><%= resultFri.getString("start")%>-<%= resultFri.getString("end")%> 
-                    <br> <center><strong><%= resultFri.getString("cid")%> </strong><br>
+                    <br> <center><strong><%= resultFri.getString("cid")%> <%= resultFri.getString("cid")%>  </strong><br>
                     <em> <%=resultFri.getString("venue")%> </em></center></td>
                     <%}%>
                 </tr>
-                <%}%>
+                <% } %>
             </tbody>
         </table>
 
