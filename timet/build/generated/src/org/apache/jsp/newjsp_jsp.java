@@ -28,16 +28,17 @@ public final class newjsp_jsp extends org.apache.jasper.runtime.HttpJspBase
             ResultSet rs4 = null;
             ResultSet rs5 = null;
             
-            public timet()
+            public timet(String U)
             {
                 try{
                     con = DriverManager.getConnection(URL, user, pass);
-                    selectall = con.prepareStatement("select * from timet");
-                    selectMon = con.prepareStatement("select * from timet where day = 'Mon' order by start"); // if it works we can copy
-                    selectTue = con.prepareStatement("select * from timet where day = 'Tue' order by start");
-                    selectWed = con.prepareStatement("select * from timet where day = 'Wed' order by start");
-                    selectThu = con.prepareStatement("select * from timet where day = 'Thu' order by start");
-                    selectFri = con.prepareStatement("select * from timet where day = 'Fri' order by start");
+                    selectall = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where sid = '"+U+"'");
+                    selectMon = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Mon' and sid = '"+U+"' order by start");
+                    selectTue = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Tue' and sid = '"+U+"' order by start");
+                    selectWed = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Wed' and sid = '"+U+"' order by start");
+                    selectThu = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Thu' and sid = '"+U+"' order by start");
+                    selectFri = con.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where day = 'Thu' and sid = '"+U+"' order by start");
+                    //problem is students will have to register for free slot also :-|
                 } catch(SQLException e){
                 e.printStackTrace();
                 }
@@ -144,7 +145,12 @@ Class.forName("com.mysql.jdbc.Driver");
       out.write("        <h1>Welcome to Timetable Portal</h1>\n");
       out.write("        ");
 
-            timet timemachine = new timet();
+            String ID = request.getParameter("username");
+            //String pass =request.getParameter("password");
+            timet timemachine = new timet(ID);
+            //PreparedStatement psu = timemachine.con.prepareStatement("select pass from stud where user = '"+ID+"'");
+            //ResultSet rsu = psu.executeQuery();
+   
             ResultSet result = timemachine.showAll();
             ResultSet resultMon = timemachine.showMon();
             ResultSet resultTue = timemachine.showTue();
@@ -179,6 +185,8 @@ if(resultMon.next()){
       out.write(" \n");
       out.write("                    <br> <center><strong>");
       out.print( resultMon.getString("cid"));
+      out.write(' ');
+      out.print( resultMon.getString("LT"));
       out.write(" </strong><br>\n");
       out.write("                    <em> ");
       out.print(resultMon.getString("venue"));
@@ -197,7 +205,9 @@ if(resultTue.next()){
       out.write(" \n");
       out.write("                    <br> <center><strong>");
       out.print( resultTue.getString("cid"));
-      out.write(" </strong><br>\n");
+      out.write(' ');
+      out.print( resultTue.getString("LT"));
+      out.write("</strong><br>\n");
       out.write("                    <em> ");
       out.print(resultTue.getString("venue"));
       out.write(" </em></center></td>\n");
@@ -214,6 +224,8 @@ if(resultWed.next()){
       out.write(" \n");
       out.write("                    <br> <center><strong>");
       out.print( resultWed.getString("cid"));
+      out.write(' ');
+      out.print( resultWed.getString("LT"));
       out.write(" </strong><br>\n");
       out.write("                    <em> ");
       out.print(resultWed.getString("venue"));
@@ -231,6 +243,8 @@ if(resultThu.next()){
       out.write(" \n");
       out.write("                    <br> <center><strong>");
       out.print( resultThu.getString("cid"));
+      out.write(' ');
+      out.print( resultThu.getString("LT"));
       out.write(" </strong><br>\n");
       out.write("                    <em> ");
       out.print(resultThu.getString("venue"));
@@ -248,7 +262,9 @@ if(resultFri.next()){
       out.write(" \n");
       out.write("                    <br> <center><strong>");
       out.print( resultFri.getString("cid"));
-      out.write(" </strong><br>\n");
+      out.write(' ');
+      out.print( resultFri.getString("cid"));
+      out.write("  </strong><br>\n");
       out.write("                    <em> ");
       out.print(resultFri.getString("venue"));
       out.write(" </em></center></td>\n");
@@ -257,7 +273,7 @@ if(resultFri.next()){
       out.write("\n");
       out.write("                </tr>\n");
       out.write("                ");
-}
+ } 
       out.write("\n");
       out.write("            </tbody>\n");
       out.write("        </table>\n");
