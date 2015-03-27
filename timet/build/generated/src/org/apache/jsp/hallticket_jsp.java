@@ -4,9 +4,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import java.sql.*;
+import java.util.*;
 import p.*;
 
-public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class hallticket_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -32,7 +33,7 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
     PageContext _jspx_page_context = null;
 
     try {
-      response.setContentType("text/html");
+      response.setContentType("text/html;charset=ISO-8859-1");
       pageContext = _jspxFactory.getPageContext(this, request, response,
       			null, true, 8192, true);
       _jspx_page_context = pageContext;
@@ -46,17 +47,95 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("\n");
-      out.write("<!DOCTYPE html>\n");
+      out.write("\n");
+      p.getBranch v = null;
+      synchronized (session) {
+        v = (p.getBranch) _jspx_page_context.getAttribute("v", PageContext.SESSION_SCOPE);
+        if (v == null){
+          v = new p.getBranch();
+          _jspx_page_context.setAttribute("v", v, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetName n = null;
+      synchronized (session) {
+        n = (p.GetName) _jspx_page_context.getAttribute("n", PageContext.SESSION_SCOPE);
+        if (n == null){
+          n = new p.GetName();
+          _jspx_page_context.setAttribute("n", n, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetExamDate g = null;
+      synchronized (session) {
+        g = (p.GetExamDate) _jspx_page_context.getAttribute("g", PageContext.SESSION_SCOPE);
+        if (g == null){
+          g = new p.GetExamDate();
+          _jspx_page_context.setAttribute("g", g, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetExamTime c = null;
+      synchronized (session) {
+        c = (p.GetExamTime) _jspx_page_context.getAttribute("c", PageContext.SESSION_SCOPE);
+        if (c == null){
+          c = new p.GetExamTime();
+          _jspx_page_context.setAttribute("c", c, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetOnlyCourses gc = null;
+      synchronized (session) {
+        gc = (p.GetOnlyCourses) _jspx_page_context.getAttribute("gc", PageContext.SESSION_SCOPE);
+        if (gc == null){
+          gc = new p.GetOnlyCourses();
+          _jspx_page_context.setAttribute("gc", gc, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetEndTime e = null;
+      synchronized (session) {
+        e = (p.GetEndTime) _jspx_page_context.getAttribute("e", PageContext.SESSION_SCOPE);
+        if (e == null){
+          e = new p.GetEndTime();
+          _jspx_page_context.setAttribute("e", e, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      p.GetImage i = null;
+      synchronized (session) {
+        i = (p.GetImage) _jspx_page_context.getAttribute("i", PageContext.SESSION_SCOPE);
+        if (i == null){
+          i = new p.GetImage();
+          _jspx_page_context.setAttribute("i", i, PageContext.SESSION_SCOPE);
+        }
+      }
+      out.write('\n');
+      out.write('\n');
+
+String uname = (String)session.getAttribute("user");
+int j=0;
+String name = n.getname(uname);
+String image = i.getimage(uname);
+String regcourses[] = gc.getcourses(uname);
+String branch = v.getRes(uname);
+String date[] = g.getexamdate(regcourses);
+String starttime[] = c.getstarttime(regcourses);
+String endtime[] = e.getendtime(regcourses);
+
+      out.write("\n");
+      out.write("\n");
       out.write("\n");
       out.write("<html>\n");
       out.write("<head>\n");
-      out.write("<title>Time table</title>\n");
+      out.write("<title>Hall Ticket</title>\n");
       out.write("<meta charset=\"utf-8\">\n");
       out.write("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n");
-      out.write("<link href=\"layout/styles/layout.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\">\n");
+      out.write("<link href=\"layout/styles/layout.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\"></link>\n");
       out.write("<!-- / Demo styling - remove before use -->\n");
       out.write("<style type=\"text/css\">\n");
-      out.write(".container .group{text-align:center;}\n");
+      out.write("\n");
+      out.write(".container .group{text-align:center;text-color:\"black\"}\n");
       out.write(".container .group div{padding:8px 0; font-size:16px; font-family:Verdana, Geneva, sans-serif;}\n");
       out.write(".container .group div:nth-child(odd){color:#FFFFFF; background:#CCCCCC;}\n");
       out.write(".container .group div:nth-child(even){color:#FFFFFF; background:#979797;}\n");
@@ -64,7 +143,7 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t.container .group div{margin-bottom:0;}\n");
       out.write("}\n");
       out.write("</style>\n");
-      out.write("\n");
+      out.write("<!-- / Demo styling -->\n");
       out.write("</head>\n");
       out.write("<body id=\"top\">\n");
       out.write("\n");
@@ -74,12 +153,12 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("  </div>\n");
       out.write("</div>\n");
       out.write("\n");
-      out.write("<div class=\"wrapper row1\">\n");
-      out.write("  <header id=\"header\" class=\"clear\"> \n");
+      out.write("<div class=\"wrapper row1\"> \n");
+      out.write("  <br><header id=\"header\" class=\"clear\"> \n");
       out.write("    <!-- ################################################################################################ -->\n");
       out.write("    <div id=\"logo\" class=\"fl_left\">\n");
       out.write("\t<img src = \"logo.png\">\n");
-      out.write("      <br><br><br><h1><font size = 18><a href=\"../index.html\">Time Table</a></font></h1>\n");
+      out.write("      <br><br><br><h1><font size = 18><a href=\"../index.html\">Hall Ticket</a></font></h1>\n");
       out.write("      \n");
       out.write("    </div>\n");
       out.write("    \n");
@@ -98,8 +177,8 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t<li><a href=\"#\">Profile</a></li>\n");
       out.write("\t\t\n");
       out.write("\t\t<li><a href=\"#\">Course Registration</a></li>\n");
-      out.write("\t\t<li class =\"active\"><a href=\"timet.html\">Time Table</a></li>\n");
-      out.write("\t\t<li><a href=\"hallt.html\">Hall Ticket</a></li>\n");
+      out.write("\t\t<li><a href=\"timetable.jsp\">Time Table</a></li>\n");
+      out.write("\t\t<li class =\"active\"><a href=\"hallticket.jsp\">Hall Ticket</a></li>\n");
       out.write("\t\t<li><a href=\"#\">View grade sheet</a></li>\n");
       out.write("\t\t<li><a href=\"#\">Logout</a></li>\n");
       out.write("      </ul>\n");
@@ -114,24 +193,9 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("      <!-- section content --> \n");
       out.write("      <!-- ################################################################################################ -->\n");
       out.write("      <div class=\"group\">\n");
-      out.write("          ");
-
-              String ID = request.getParameter("username");
-              String  pass = request.getParameter("password");
-              getPassword getPass = new getPassword();
-              
-              if(pass.equals(getPass.checkpassword(ID))){
-              getSemester Semester = new getSemester();
-              getBranch Branch = new getBranch();
-              String sem = Semester.getRes(ID);
-              String brn = Branch.getRes(ID);
-          
-      out.write("\n");
-      out.write("        <div class=\"one_half first\">");
-      out.print(sem);
-      out.write(" Semester</div>\n");
+      out.write("        <div class=\"one_half first\">Academic session : 2015</div>\n");
       out.write("        <div class=\"one_half\">Branch : ");
-      out.print(brn);
+      out.print(branch);
       out.write("</div>\n");
       out.write("      </div>\n");
       out.write("      <!-- ################################################################################################ --> \n");
@@ -140,185 +204,62 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </div>\n");
       out.write("  </div>\n");
       out.write("</div>\n");
+      out.write("<!-- / section 1 --> \n");
+      out.write("<!-- ################################################################################################ -->\n");
       out.write("<div class=\"wrapper row3\">\n");
       out.write("  <div class=\"rounded\">\n");
       out.write("    <main class=\"container clear\"> \n");
-      out.write("<h1>Updated</h1>\n");
+      out.write("      <!-- main body --> \n");
+      out.write("      <!-- ################################################################################################ -->\n");
+      out.write("     <img class=\"imgl borderedbox\" src=\"\" alt=\"image\">\n");
+      out.write("      <p><h1>Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ");
+      out.print(name );
+      out.write("</h1>\n");
+      out.write("        <h1>Roll no. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ");
+      out.print(uname);
+      out.write("</h1> \n");
+      out.write("        <h1>Examination &nbsp;&nbsp;&nbsp;Mid Semester</h1></p>\n");
       out.write("      <div class=\"scrollable\">\n");
-      out.write("          \n");
-      out.write("          ");
-
-            int t = 10;
-            daytimet timeMon = new daytimet("Mon", ID);
-            daytimet timeTue = new daytimet("Tue", ID);
-            daytimet timeWed = new daytimet("Wed", ID);
-            daytimet timeThu = new daytimet("Thu", ID);
-            daytimet timeFri = new daytimet("Fri", ID);
-            
-            ResultSet resultMon = timeMon.ShowDay();//timemachine.showMon();
-            ResultSet resultTue = timeTue.ShowDay();//timemachine.showTue();
-            ResultSet resultWed = timeWed.ShowDay();//timemachine.showWed();
-            ResultSet resultThu = timeThu.ShowDay();//timemachine.showThu();
-            ResultSet resultFri = timeFri.ShowDay();
-        
+      out.write("        <table>\n");
+      out.write("          <thead>\n");
+      out.write("            <tr>\n");
+      out.write("              <th>Course Code</th>\n");
+      out.write("              <th>Date</th>\n");
+      out.write("        <th>Start Time</th>\n");
+      out.write("        <th>End Time</th>\n");
+      out.write("            </tr>\n");
+      out.write("          </thead>\n");
+      out.write("          <tbody style=\"text-color:black;\">\n");
+      out.write("            <tr>\n");
+      out.write("            ");
+for(j=0;j<regcourses.length;j++){ 
       out.write("\n");
-      out.write("          \n");
-      out.write("          \n");
-      out.write("        <table border=\"1\">\n");
-      out.write("            <thead>\n");
-      out.write("                <tr>\n");
-      out.write("                    \n");
-      out.write("                    <th> Monday </th>\n");
-      out.write("                    <th> Tuesday </th>\n");
-      out.write("                    <th> Wednesday </th>\n");
-      out.write("                    <th> Thursday </th>\n");
-      out.write("                    <th>Friday</th>\n");
-      out.write("                </tr>\n");
-      out.write("            </thead>\n");
-      out.write("            <tbody>\n");
-      out.write("                ");
-while (t>0) {
+      out.write("              <td>");
+      out.print(regcourses[j]);
+      out.write("</td>\n");
+      out.write("              <td>");
+      out.print(date[j]);
+      out.write("</td>\n");
+      out.write("              <td>");
+      out.print(starttime[j]);
+      out.write("</td>\n");
+      out.write("              <td>");
+      out.print(endtime[j]);
+      out.write("</td>\n");
+      out.write("            </tr>\n");
+      out.write("            ");
+} 
       out.write("\n");
-      out.write("                <tr>\n");
-      out.write("                    ");
-if(resultMon.next()){
-      out.write("\n");
-      out.write("                    <td><center>");
-      out.print( resultMon.getString("start"));
-      out.write('-');
-      out.print( resultMon.getString("end"));
-      out.write(" \n");
-      out.write("                    <br> <strong>");
-      out.print( resultMon.getString("cid"));
-      out.write(' ');
-      out.print( resultMon.getString("LT"));
-      out.write(" </strong><br>\n");
-      out.write("                    <em> ");
-      out.print(resultMon.getString("venue"));
-      out.write(" </em></center></td>\n");
-      out.write("                    ");
-}
-      out.write("\n");
-      out.write("                    \n");
-      out.write("                    ");
-if(resultTue.next()){
-      out.write("\n");
-      out.write("                    <td><center>");
-      out.print( resultTue.getString("start"));
-      out.write('-');
-      out.print( resultTue.getString("end"));
-      out.write(" \n");
-      out.write("                    <br> <strong>");
-      out.print( resultTue.getString("cid"));
-      out.write(' ');
-      out.print( resultTue.getString("LT"));
-      out.write("</strong><br>\n");
-      out.write("                    <em> ");
-      out.print(resultTue.getString("venue"));
-      out.write(" </em></center></td>\n");
-      out.write("                    ");
-}
-      out.write("\n");
-      out.write("                    ");
-if(resultWed.next()){
-      out.write("\n");
-      out.write("                    <td><center>");
-      out.print( resultWed.getString("start"));
-      out.write('-');
-      out.print( resultWed.getString("end"));
-      out.write(" \n");
-      out.write("                    <br> <strong>");
-      out.print( resultWed.getString("cid"));
-      out.write(' ');
-      out.print( resultWed.getString("LT"));
-      out.write(" </strong><br>\n");
-      out.write("                    <em> ");
-      out.print(resultWed.getString("venue"));
-      out.write(" </em></center></td>\n");
-      out.write("                    ");
-}
-      out.write("\n");
-      out.write("                    ");
-if(resultThu.next()){
-      out.write("\n");
-      out.write("                    <td><center>");
-      out.print( resultThu.getString("start"));
-      out.write('-');
-      out.print( resultThu.getString("end"));
-      out.write(" \n");
-      out.write("                    <br><strong>");
-      out.print( resultThu.getString("cid"));
-      out.write(' ');
-      out.print( resultThu.getString("LT"));
-      out.write(" </strong><br>\n");
-      out.write("                    <em> ");
-      out.print(resultThu.getString("venue"));
-      out.write(" </em></center></td>\n");
-      out.write("                    ");
-}
-      out.write("\n");
-      out.write("                    ");
-if(resultFri.next()){
-      out.write("\n");
-      out.write("                    <td><center>");
-      out.print( resultFri.getString("start"));
-      out.write('-');
-      out.print( resultFri.getString("end"));
-      out.write(" \n");
-      out.write("                    <br> <strong>");
-      out.print( resultFri.getString("cid"));
-      out.write(' ');
-      out.print( resultFri.getString("cid"));
-      out.write("  </strong><br>\n");
-      out.write("                    <em> ");
-      out.print(resultFri.getString("venue"));
-      out.write(" </em></center></td>\n");
-      out.write("                    ");
-}
-      out.write("\n");
-      out.write("                </tr>\n");
-      out.write("                ");
-t--; } 
-              } else {
-        response.sendRedirect("Login.jsp");}
-      out.write("\n");
-      out.write("            </tbody>\n");
+      out.write("          </tbody>\n");
       out.write("        </table>\n");
       out.write(" </div>\n");
-      out.write("  <div class=\"clear\"></div>\n");
+      out.write("<a>Print</a>\n");
+      out.write("      <!-- / main body -->\n");
+      out.write("      <div class=\"clear\"></div>\n");
       out.write("    </main>\n");
       out.write("  </div>\n");
       out.write("</div>\n");
       out.write("\n");
-      out.write("<!-- / section 1 --> \n");
-      out.write("<!-- section 2 --> \n");
-      out.write("<!-- ################################################################################################ --> \n");
-      out.write("<!-- ################################################################################################ --> \n");
-      out.write("<!-- ################################################################################################ -->\n");
-      out.write("<!--<div class=\"wrapper row3\">\n");
-      out.write("  <div class=\"rounded\">\n");
-      out.write("    <div class=\"container clear\"> \n");
-      out.write("    \n");
-      out.write("      <div class=\"group btmspace-5\">\n");
-      out.write("        <div class=\"one_quarter first\">1/4</div>\n");
-      out.write("        <div class=\"one_quarter\">1/4</div>\n");
-      out.write("        <div class=\"one_quarter\">1/4</div>\n");
-      out.write("        <div class=\"one_quarter\">1/4</div>\n");
-      out.write("      </div>\n");
-      out.write("      <div class=\"group btmspace-5\">\n");
-      out.write("        <div class=\"one_quarter first\">1/4</div>\n");
-      out.write("        <div class=\"one_quarter\">1/4</div>\n");
-      out.write("        <div class=\"two_quarter\">2/4 or 1/2</div>\n");
-      out.write("      </div>\n");
-      out.write("      <div class=\"group\">\n");
-      out.write("        <div class=\"one_quarter first\">1/4</div>\n");
-      out.write("        <div class=\"three_quarter\">3/4</div>\n");
-      out.write("      </div>\n");
-      out.write("      \n");
-      out.write("      <div class=\"clear\"></div>\n");
-      out.write("    </div>\n");
-      out.write("  </div>\n");
-      out.write("</div>\n");
       out.write("<!-- / section 2 --> \n");
       out.write("\n");
       out.write("\n");
@@ -345,8 +286,9 @@ t--; }
       out.write("        <i class=\"fa fa-envelope-o pright-10\"></i> <a href=\"#\">securityhelpdesk@iiti.ac.in</a>\n");
       out.write("        </address>\n");
       out.write("   \n");
+      out.write("   \n");
       out.write("      <!-- ################################################################################################ --> \n");
-      out.write("    </footer>\n");
+      out.write("  </footer>\n");
       out.write("  </div>\n");
       out.write("</div>\n");
       out.write("<!-- ################################################################################################ --> \n");
@@ -356,7 +298,7 @@ t--; }
       out.write("  <div id=\"copyright\" class=\"clear\"> \n");
       out.write("    <!-- ################################################################################################ -->\n");
       out.write("    <p class=\"fl_left\">Copyright &copy; 2014 - All Rights Reserved - <a href=\"http://www.iiti.ac.in/\">IIT Indore</a></p>\n");
-      out.write("    \n");
+      out.write("    <p class=\"fl_right\">Designed by Dhruva and Parul</p>\n");
       out.write("    <!-- ################################################################################################ --> \n");
       out.write("  </div>\n");
       out.write("</div>\n");
@@ -365,7 +307,8 @@ t--; }
       out.write("<script src=\"layout/scripts/jquery.fitvids.min.js\"></script> \n");
       out.write("<script src=\"layout/scripts/jquery.mobilemenu.js\"></script>\n");
       out.write("</body>\n");
-      out.write("</html>");
+      out.write("</html>\n");
+      out.write("\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;

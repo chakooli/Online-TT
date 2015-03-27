@@ -1,6 +1,6 @@
 <%@page import = "java.sql.*"%>
 <%@page import = "p.*"%>
-<%Class.forName("com.mysql.jdbc.Driver");%>
+
 <!DOCTYPE html>
 
 <html>
@@ -53,8 +53,8 @@
 		<li><a href="#">Profile</a></li>
 		
 		<li><a href="#">Course Registration</a></li>
-		<li class ="active"><a href="timet.html">Time Table</a></li>
-		<li><a href="hallt.html">Hall Ticket</a></li>
+		<li class ="active"><a href="timetable.jsp">Time Table</a></li>
+		<li><a href="hallticket.jsp">Hall Ticket</a></li>
 		<li><a href="#">View grade sheet</a></li>
 		<li><a href="#">Logout</a></li>
       </ul>
@@ -69,8 +69,20 @@
       <!-- section content --> 
       <!-- ################################################################################################ -->
       <div class="group">
-        <div class="one_half first">Academic year : XXXX</div>
-        <div class="one_half">Branch : XXX</div>
+          <%
+              String ID = request.getParameter("username");
+              String  pass = request.getParameter("password");
+              session.setAttribute("user", ID);
+              getPassword getPass = new getPassword();
+              
+              if(pass.equals(getPass.checkpassword(ID))){
+              getSemester Semester = new getSemester();
+              getBranch Branch = new getBranch();
+              String sem = Semester.getRes(ID);
+              String brn = Branch.getRes(ID);
+          %>
+        <div class="one_half first"><%=sem%> Semester</div>
+        <div class="one_half">Branch : <%=brn%></div>
       </div>
       <!-- ################################################################################################ --> 
       <!-- / section content -->
@@ -85,7 +97,6 @@
       <div class="scrollable">
           
           <%
-            String ID = request.getParameter("username");
             int t = 10;
             daytimet timeMon = new daytimet("Mon", ID);
             daytimet timeTue = new daytimet("Tue", ID);
@@ -142,7 +153,10 @@
                     <em> <%=resultFri.getString("venue")%> </em></center></td>
                     <%}%>
                 </tr>
-                <%t--; } %>
+                <%t--; } 
+              } else {
+                  
+        response.sendRedirect("Login.jsp");}%>
             </tbody>
         </table>
  </div>

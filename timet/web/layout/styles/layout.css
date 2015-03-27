@@ -344,8 +344,8 @@ label span{color:#FF0000; background-color:inherit;}
 /* Tables + Comments */
 table, th, td, #comments .avatar, #comments input, #comments textarea{border-color:#D7D7D7;}
 th{color:#FFFFFF; background-color:#373737;}
-tr, #comments li, #comments input[type="submit"], #comments input[type="reset"]{color:inherit; background-color:#FBFBFB;}
-tr:nth-child(odd), #comments li:nth-child(odd){color:inherit; background-color:#FFFFFF;}
+tr, #comments li, #comments input[type="submit"], #comments input[type="reset"]{color:#000000; background-color:#FBFBFB;}
+tr:nth-child(odd), #comments li:nth-child(odd){color:#000000; background-color:#FFFFFF;}
 table a, #comments a{background-color:inherit;}
 
 

@@ -12,7 +12,7 @@ public class daytimet {
         Connection c = con.dbconnect();
    
         try{
-        selectday = c.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where sid = '"+U+"' and day = '"+D+"'");
+        selectday = c.prepareStatement("select start, end, timet.cid, venue, LT from timet inner join regis on (timet.cid = regis.cid) where sid = '"+U+"' and day = '"+D+"' order by start");
         } catch(SQLException e){
         e.printStackTrace();
         }
