@@ -21,7 +21,7 @@
 </style>
 
 </head>
-<body id="top">
+<body id="top" font ="black">
 
 <div class="wrapper row0">
   <div id="topbar" class="clear"> 
@@ -78,10 +78,12 @@
               if(pass.equals(getPass.checkpassword(ID))){
               getSemester Semester = new getSemester();
               getBranch Branch = new getBranch();
+              getSession Session = new getSession();
+              String ses = Session.printSession();
               String sem = Semester.getRes(ID);
               String brn = Branch.getRes(ID);
           %>
-        <div class="one_half first"><%=sem%> Semester</div>
+        <div class="one_half first"><%=sem%>, <%=ses%></div>
         <div class="one_half">Branch : <%=brn%></div>
       </div>
       <!-- ################################################################################################ --> 
@@ -159,6 +161,9 @@
         response.sendRedirect("Login.jsp");}%>
             </tbody>
         </table>
+            <input type="button" 
+             onClick="window.print()" 
+             value="Print"/>
  </div>
   <div class="clear"></div>
     </main>

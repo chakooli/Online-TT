@@ -66,7 +66,7 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</style>\n");
       out.write("\n");
       out.write("</head>\n");
-      out.write("<body id=\"top\">\n");
+      out.write("<body id=\"top\" font =\"black\">\n");
       out.write("\n");
       out.write("<div class=\"wrapper row0\">\n");
       out.write("  <div id=\"topbar\" class=\"clear\"> \n");
@@ -98,8 +98,8 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t<li><a href=\"#\">Profile</a></li>\n");
       out.write("\t\t\n");
       out.write("\t\t<li><a href=\"#\">Course Registration</a></li>\n");
-      out.write("\t\t<li class =\"active\"><a href=\"timet.html\">Time Table</a></li>\n");
-      out.write("\t\t<li><a href=\"hallt.html\">Hall Ticket</a></li>\n");
+      out.write("\t\t<li class =\"active\"><a href=\"timetable.jsp\">Time Table</a></li>\n");
+      out.write("\t\t<li><a href=\"hallticket.jsp\">Hall Ticket</a></li>\n");
       out.write("\t\t<li><a href=\"#\">View grade sheet</a></li>\n");
       out.write("\t\t<li><a href=\"#\">Logout</a></li>\n");
       out.write("      </ul>\n");
@@ -118,18 +118,24 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
 
               String ID = request.getParameter("username");
               String  pass = request.getParameter("password");
+              session.setAttribute("user", ID);
               getPassword getPass = new getPassword();
               
               if(pass.equals(getPass.checkpassword(ID))){
               getSemester Semester = new getSemester();
               getBranch Branch = new getBranch();
+              getSession Session = new getSession();
+              String ses = Session.printSession();
               String sem = Semester.getRes(ID);
               String brn = Branch.getRes(ID);
           
       out.write("\n");
       out.write("        <div class=\"one_half first\">");
       out.print(sem);
-      out.write(" Semester</div>\n");
+      out.write(',');
+      out.write(' ');
+      out.print(ses);
+      out.write("</div>\n");
       out.write("        <div class=\"one_half\">Branch : ");
       out.print(brn);
       out.write("</div>\n");
@@ -280,10 +286,14 @@ if(resultFri.next()){
       out.write("                ");
 t--; } 
               } else {
+                  
         response.sendRedirect("Login.jsp");}
       out.write("\n");
       out.write("            </tbody>\n");
       out.write("        </table>\n");
+      out.write("            <input type=\"button\" \n");
+      out.write("             onClick=\"window.print()\" \n");
+      out.write("             value=\"Print\"/>\n");
       out.write(" </div>\n");
       out.write("  <div class=\"clear\"></div>\n");
       out.write("    </main>\n");

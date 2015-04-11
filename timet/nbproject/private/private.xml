@@ -5,9 +5,11 @@
         <group>
             <file>file:/D:/Work/Workspace/timet/web/timetable.jsp</file>
             <file>file:/D:/Work/Workspace/timet/web/logo.png</file>
+            <file>file:/D:/Work/Workspace/timet/web/hallticket.jsp</file>
             <file>file:/D:/Work/Workspace/timet/src/java/p/getSemester.java</file>
             <file>file:/D:/Work/Workspace/timet/src/java/p/getBranch.java</file>
             <file>file:/D:/Work/Workspace/timet/web/Login.jsp</file>
+            <file>file:/D:/Work/Workspace/timet/src/java/p/getSession.java</file>
             <file>file:/D:/Work/Workspace/timet/src/java/p/daytimet.java</file>
         </group>
     </open-files>
