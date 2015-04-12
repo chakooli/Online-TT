@@ -9,6 +9,8 @@
 <jsp:useBean  id="gc" class="p.GetOnlyCourses" scope="session"></jsp:useBean>
 <jsp:useBean  id="e" class="p.GetEndTime" scope="session"></jsp:useBean>
 <jsp:useBean  id="i" class="p.GetImage" scope="session"></jsp:useBean>
+<jsp:useBean  id="S" class="p.getSemester" scope="session"></jsp:useBean>
+<jsp:useBean  id="E" class="p.getSession" scope="session"></jsp:useBean>
 
 <%
 String uname = (String)session.getAttribute("user");
@@ -20,6 +22,8 @@ String branch = v.getRes(uname);
 String date[] = g.getexamdate(regcourses);
 String starttime[] = c.getstarttime(regcourses);
 String endtime[] = e.getendtime(regcourses);
+String sem = S.getRes(uname);
+String ses = E.printSession();
 %>
 
 
@@ -52,19 +56,14 @@ String endtime[] = e.getendtime(regcourses);
 
 <div class="wrapper row1"> 
   <br><header id="header" class="clear"> 
-    <!-- ################################################################################################ -->
-    <div id="logo" class="fl_left">
+   <div id="logo" class="fl_left">
 	<img src = "logo.png">
-      <br><br><br><h1><font size = 18><a href="../index.html">Hall Ticket</a></font></h1>
+      <br><br><br><h1><font size = 6><a href="/index.html">Hall Ticket</a></font></h1>
       
     </div>
     
-    <!-- ################################################################################################ --> 
-  </header>
+</header>
 </div>
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ -->
 <div class="wrapper row2">
   <div class="rounded">
     <nav id="mainav" class="clear"> 
@@ -79,76 +78,87 @@ String endtime[] = e.getendtime(regcourses);
 		<li><a href="#">View grade sheet</a></li>
 		<li><a href="#">Logout</a></li>
       </ul>
-      <!-- ################################################################################################ --> 
-    </nav>
+ </nav>
   </div>
 </div>
-<!-- section 1 --> 
 <div class="wrapper row3">
   <div class="rounded">
     <div class="container clear"> 
       <!-- section content --> 
       <!-- ################################################################################################ -->
       <div class="group">
-        <div class="one_half first">Academic session : 2015</div>
+        <div class="one_half first"><%=sem%>, <%=ses%></div>
         <div class="one_half">Branch : <%=branch%></div>
       </div>
-      <!-- ################################################################################################ --> 
-      <!-- / section content -->
-      <div class="clear"></div>
+     <div class="clear"></div>
     </div>
   </div>
 </div>
-<!-- / section 1 --> 
-<!-- ################################################################################################ -->
 <div class="wrapper row3">
   <div class="rounded">
     <main class="container clear"> 
-      <!-- main body --> 
-      <!-- ################################################################################################ -->
-     <img class="imgl borderedbox" src="" alt="image">
-      <p><h1>Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=name %></h1>
-        <h1>Roll no. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=uname%></h1> 
-        <h1>Examination &nbsp;&nbsp;&nbsp;Mid Semester</h1></p>
+    <h1><img class="imgl borderedbox" src="" alt="image"><br></h1>
+      <%-- <p><h1>NAME: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=name %><br>
+        ROLL NO:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=uname%><br>
+        EXAMINATION: &nbsp;&nbsp;&nbsp; <%=sem%> Semester</h1></p>--%>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll No.</th>
+                <th>Branch</th>
+                <th>Examination</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><%=name%></td>
+                <td><%=uname%></td>
+                <td><%=branch%></td>
+                <td><%=sem%></td>
+            </tr>
+        </tbody>
+    </table>
+
       <div class="scrollable">
         <table>
           <thead>
             <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>To</th>
               <th>Course Code</th>
-              <th>Date</th>
-        <th>Start Time</th>
-        <th>End Time</th>
+              
             </tr>
           </thead>
           <tbody style="text-color:black;">
+              
             <tr>
             <%for(j=0;j<regcourses.length;j++){ %>
-              <td><%=regcourses[j]%></td>
-              <td><%=date[j]%></td>
-              <td><%=starttime[j]%></td>
+            <td><%=date[j]%></td>
+            <td><%=starttime[j]%></td>
               <td><%=endtime[j]%></td>
+              <td><%=regcourses[j]%></td>
+              
+              
             </tr>
+            
             <%} %>
           </tbody>
         </table>
  </div>
-<a>Print</a>
+            <input type="button" 
+             onClick="window.print()" 
+             value="Print"/>
       <!-- / main body -->
       <div class="clear"></div>
     </main>
   </div>
 </div>
 
-<!-- / section 2 --> 
-
-
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ -->
 <div class="wrapper row4">
   <div class="rounded">
-    <footer id="footer" class="clear"> 
-      <!-- ################################################################################################ -->
+    <footer id="footer" class="clear">
       <div class="one_third first">
         <figure class="center"><img class="btmspace-15" src="map.png" alt="">
           <figcaption><a href="https://www.google.co.in/maps/place/IIT+Indore/@22.680911,75.876066,15z/data=!4m2!3m1!1s0x0:0xbc4a94ecc5ad388">Find Us With Google Maps &raquo;</a></figcaption>
@@ -164,20 +174,13 @@ String endtime[] = e.getendtime(regcourses);
         <i class="fa fa-phone pright-10"></i> +91-732-4240777<br>
         <i class="fa fa-envelope-o pright-10"></i> <a href="#">securityhelpdesk@iiti.ac.in</a>
         </address>
-   
-   
-      <!-- ################################################################################################ --> 
-  </footer>
+   </footer>
   </div>
 </div>
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ -->
 <div class="wrapper row5">
   <div id="copyright" class="clear"> 
     <!-- ################################################################################################ -->
     <p class="fl_left">Copyright &copy; 2014 - All Rights Reserved - <a href="http://www.iiti.ac.in/">IIT Indore</a></p>
-    <p class="fl_right">Designed by Dhruva and Parul</p>
     <!-- ################################################################################################ --> 
   </div>
 </div>

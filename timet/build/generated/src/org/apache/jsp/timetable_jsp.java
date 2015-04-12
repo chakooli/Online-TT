@@ -79,7 +79,7 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <!-- ################################################################################################ -->\n");
       out.write("    <div id=\"logo\" class=\"fl_left\">\n");
       out.write("\t<img src = \"logo.png\">\n");
-      out.write("      <br><br><br><h1><font size = 18><a href=\"../index.html\">Time Table</a></font></h1>\n");
+      out.write("      <br><br><br><h1><font size = 6><a href=\"/index.html\">Time Table</a></font></h1>\n");
       out.write("      \n");
       out.write("    </div>\n");
       out.write("    \n");
@@ -149,7 +149,6 @@ public final class timetable_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<div class=\"wrapper row3\">\n");
       out.write("  <div class=\"rounded\">\n");
       out.write("    <main class=\"container clear\"> \n");
-      out.write("<h1>Updated</h1>\n");
       out.write("      <div class=\"scrollable\">\n");
       out.write("          \n");
       out.write("          ");

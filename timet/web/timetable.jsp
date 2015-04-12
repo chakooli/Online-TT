@@ -34,7 +34,7 @@
     <!-- ################################################################################################ -->
     <div id="logo" class="fl_left">
 	<img src = "logo.png">
-      <br><br><br><h1><font size = 18><a href="../index.html">Time Table</a></font></h1>
+      <br><br><br><h1><font size = 6><a href="/index.html">Time Table</a></font></h1>
       
     </div>
     
@@ -95,7 +95,6 @@
 <div class="wrapper row3">
   <div class="rounded">
     <main class="container clear"> 
-<h1>Updated</h1>
       <div class="scrollable">
           
           <%
